@@ -332,8 +332,27 @@ function deliveredSections(go: (p: Page) => void, tr: Tr, setTab: (t: ProjectTab
     { left: ImgSec(ET.r4), right: ImgSec(ET.r5) },
     { left: ImgSec(ET.r6), right: ImgSec(ET.r7) },
     { left: ImgSec(ET.r8), right: ImgSec(ET.r9) },
-    { left: ImgSec(ET.r10), right: ImgSec(ET.c1) },
-    { left: ImgSec(ET.c2), right: ImgSec(ET.ext2) },
+    {
+      left: Green(
+      <>
+        <p className="eyebrow">{p.planTitle}</p>
+        <h2 className="h-section peach">{p.planTitle}</h2>
+        <p className="body-text">{p.planBody}</p>
+      </>
+      ),
+      right: ImgSec(ET.c1),
+    },
+    {
+      left: ImgSec(ET.c2),
+      right: Green(
+      <>
+        <p className="eyebrow">{p.planTitle}</p>
+        <h2 className="h-section peach">{p.planTitle}</h2>
+        <p className="body-text">{p.planBody}</p>
+      </>
+      ),
+    },
+    { left: ImgSec(ET.r10), right: ImgSec(ET.ext2) },
     {
       left: ImgSec(ET.ext3),
       right: Green(
