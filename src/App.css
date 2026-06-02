@@ -107,11 +107,12 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(15, 30, 20, 0.72);
+  background: rgba(10, 20, 15, 0.48);
   pointer-events: none;
   z-index: 0;
 }
 .s-green > * { position: relative; z-index: 1; }
+.s-green .anim { text-shadow: 0 1px 10px rgba(0,0,0,0.35); }
 
 .s-cream { background: var(--cream); color: var(--ink); }
 
@@ -124,7 +125,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(10, 22, 14, 0.82);
+  background: rgba(10, 20, 15, 0.52);
   pointer-events: none;
   z-index: 0;
 }
@@ -159,39 +160,62 @@
 /* ---------- Typography ---------- */
 .h-display {
   font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(48px, 6.5vw, 84px);
+  font-weight: 700;
+  font-size: clamp(52px, 7vw, 90px);
   line-height: 1.05;
   letter-spacing: -0.5px;
   color: #fff;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.5);
   margin: 0 0 24px;
 }
-.h-display.dark { color: var(--green); }
 
 .h-section {
   font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(36px, 4.5vw, 64px);
+  font-weight: 700;
+  font-size: clamp(38px, 5vw, 68px);
   line-height: 1.1;
   margin: 0 0 24px;
-  color: var(--green);
+  color: #fff;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.5);
 }
-.h-section.peach { color: var(--peach-soft); }
+.h-section.peach { color: #fff; }
 
 .eyebrow {
   font-family: var(--sans);
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 700;
   letter-spacing: 4px;
   text-transform: uppercase;
   margin-bottom: 24px;
-  opacity: 0.85;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  opacity: 1;
 }
 
 .body-text {
-  font-size: 16px;
-  line-height: 1.65;
+  font-size: 18px;
+  line-height: 1.7;
+  font-weight: 500;
+  max-width: 440px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+}
+
+/* Ağ fon seksiyalarında yaşıl text */
+.s-cream .h-display,
+.s-cream .h-section,
+.s-cream .h-section.peach {
+  color: var(--green);
+  text-shadow: none;
+}
+.s-cream .eyebrow {
+  color: var(--green);
+  text-shadow: none;
+  opacity: 0.65;
+}
+.s-cream .body-text {
+  color: var(--ink);
+  text-shadow: none;
   font-weight: 400;
-  max-width: 420px;
 }
 
 ul.bullets {
@@ -204,9 +228,10 @@ ul.bullets {
 }
 ul.bullets li {
   position: relative;
-  padding-left: 18px;
-  font-size: 14px;
-  line-height: 1.5;
+  padding-left: 20px;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.55;
 }
 ul.bullets li::before {
   content: '';
@@ -318,13 +343,22 @@ ul.bullets li::before {
 }
 .menu .close {
   position: absolute;
-  bottom: 60px;
+  top: 24px;
+  right: 40px;
   font-size: 28px;
-  color: var(--peach);
+  color: var(--green);
   cursor: pointer;
-  background: none;
+  background: var(--peach-soft);
   border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 2px;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  transition: transform .3s;
 }
+.menu .close:hover { transform: rotate(90deg); }
 
 /* ---------- Rakurs grid ---------- */
 .rakurs-grid {
@@ -423,8 +457,9 @@ ul.et-specs li {
   justify-content: space-between;
   align-items: baseline;
   padding-left: 0;
-  font-size: 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.12);
+  font-size: 16px;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255,255,255,0.18);
   padding-bottom: 12px;
   gap: 16px;
 }
@@ -481,17 +516,19 @@ ul.et-specs li strong { text-align: right; }
 .contact-form textarea {
   background: transparent;
   border: none;
-  border-bottom: 1px solid rgba(232, 184, 154, 0.4);
+  border-bottom: 1px solid rgba(255,255,255,0.5);
   padding: 14px 0;
   font-family: var(--sans);
   font-size: 15px;
-  color: var(--peach);
+  font-weight: 600;
+  color: #fff;
   outline: none;
 }
 .contact-form input::placeholder,
 .contact-form textarea::placeholder {
-  color: rgba(232, 184, 154, 0.5);
+  color: rgba(255,255,255,0.6);
   letter-spacing: 1px;
+  font-weight: 500;
 }
 .contact-form textarea { min-height: 80px; resize: vertical; }
 
@@ -713,4 +750,84 @@ ul.et-specs li strong { text-align: right; }
   .footer-big-nav button { font-size: 22px; }
 
   .rakurs-grid { grid-template-columns: 1fr; }
+  .menu .close { top: 16px; right: 20px; }
+}
+
+/* ---------- Intro (logo reveal) ---------- */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* Dark, neutral backdrop with subtle depth + vignette */
+.intro-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 120% at 50% 42%, #21372b 0%, #182a20 45%, #101d16 100%);
+  pointer-events: none;
+}
+.intro-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(70% 70% at 50% 50%, transparent 55%, rgba(0,0,0,0.45) 100%);
+}
+
+.intro-logo {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+.intro-logo img {
+  display: block;
+  width: clamp(220px, 32vw, 340px);
+  height: auto;
+  filter: drop-shadow(0 18px 48px rgba(0,0,0,0.45));
+}
+
+/* One-time light sweep, masked to the logo silhouette */
+.intro-sweep {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask: url('/logo-modified.png') center / contain no-repeat;
+          mask: url('/logo-modified.png') center / contain no-repeat;
+}
+.intro-sweep::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  width: 45%;
+  background: linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
+  transform: translateX(-260%) skewX(-12deg);
+  animation: introSweep 1.15s 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes introSweep {
+  to { transform: translateX(360%) skewX(-12deg); }
+}
+
+.intro-tag {
+  position: relative;
+  z-index: 2;
+  margin: 32px 0 0;
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 7px;
+  text-transform: uppercase;
+  color: var(--peach-soft);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-sweep::before { animation: none; }
 }

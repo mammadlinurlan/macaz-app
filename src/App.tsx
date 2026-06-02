@@ -1,5 +1,6 @@
 import { cloneElement, createContext, isValidElement, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { motion, AnimatePresence, useAnimationControls, useReducedMotion } from 'framer-motion'
 import { translations, type Lang, type Tr } from './i18n'
 import './App.css'
 
@@ -423,6 +424,86 @@ function contactSections(go: (p: Page) => void, tr: Tr) {
   return { left, right }
 }
 
+/* ---------- Intro (logo reveal → header handoff) ---------- */
+const EASE_OUT_CUBIC = [0.16, 0.84, 0.34, 1] as const   // weighty rise-in
+const EASE_IN_OUT = [0.65, 0, 0.35, 1] as const          // settle into header
+
+function Intro({ onDone }: Readonly<{ onDone: () => void }>) {
+  const reduce = useReducedMotion()
+  const logo = useAnimationControls()
+  const bg = useAnimationControls()
+  const wrapRef = useRef<HTMLDivElement>(null)
+  const doneRef = useRef(false)
+
+  // Phase 2: shrink + move the centered logo onto the real header logo, fade the backdrop.
+  const handoff = useCallback(async () => {
+    if (doneRef.current) return
+    doneRef.current = true
+
+    const target = document.querySelector<HTMLImageElement>('.header .logo img')
+    const wrap = wrapRef.current
+    if (target && wrap) {
+      const from = wrap.getBoundingClientRect()
+      const to = target.getBoundingClientRect()
+      const scale = to.height / from.height
+      const x = (to.left + to.width / 2) - (from.left + from.width / 2)
+      const y = (to.top + to.height / 2) - (from.top + from.height / 2)
+      bg.start({ opacity: 0, transition: { duration: 0.9, ease: 'easeInOut' } })
+      await logo.start({ x, y, scale, transition: { duration: 1, ease: EASE_IN_OUT } })
+    } else {
+      await bg.start({ opacity: 0, transition: { duration: 0.6 } })
+    }
+    onDone()
+  }, [bg, logo, onDone])
+
+  useEffect(() => {
+    let cancelled = false
+    const wait = (ms: number) => new Promise<void>(res => setTimeout(res, ms))
+
+    async function run() {
+      // Phase 1: rise up + fade in + de-blur with a heavy, low-bounce ease.
+      await logo.start({
+        opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
+        transition: reduce ? { duration: 0.4 } : { duration: 1.2, ease: EASE_OUT_CUBIC },
+      })
+      if (cancelled) return
+      await wait(reduce ? 300 : 1100)   // hold; light sweep plays here
+      if (cancelled || doneRef.current) return
+      handoff()
+    }
+
+    run()
+    return () => { cancelled = true }
+  }, [logo, reduce, handoff])
+
+  return (
+    <motion.div
+      className="intro"
+      onClick={handoff}
+      exit={{ opacity: 0, transition: { duration: 0.4 } }}
+    >
+      <motion.div className="intro-bg" initial={{ opacity: 1 }} animate={bg} />
+      <motion.div
+        ref={wrapRef}
+        className="intro-logo"
+        initial={{ opacity: 0, scale: 0.8, y: 28, filter: 'blur(10px)' }}
+        animate={logo}
+      >
+        <img src="/logo-modified.png" alt="Macaz MMC" />
+        <span className="intro-sweep" />
+      </motion.div>
+      <motion.p
+        className="intro-tag"
+        initial={{ opacity: 0, y: 10 }}
+        animate={reduce ? { opacity: 0.7 } : { opacity: [0, 0.7, 0.7, 0], y: 0 }}
+        transition={{ duration: 2.3, times: [0, 0.25, 0.7, 1], delay: 0.5, ease: 'easeInOut' }}
+      >
+        Macaz MMC
+      </motion.p>
+    </motion.div>
+  )
+}
+
 /* ---------- Header ---------- */
 function Header({ onMenu, onHome }: { onMenu: () => void; onHome: () => void }) {
   const { lang, setLang } = useLang()
@@ -621,6 +702,7 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [projectsTab, setProjectsTab] = useState<ProjectTab>('delivered')
   const [lang, setLang] = useState<Lang>('az')
+  const [showIntro, setShowIntro] = useState(true)
   const tr = translations[lang]
 
   const page: Page = PAGE_ROUTES[location.pathname] ?? 'home'
@@ -636,6 +718,9 @@ export default function App() {
 
   return (
     <LangCtx.Provider value={{ tr, lang, setLang }}>
+      <AnimatePresence>
+        {showIntro && <Intro key="intro" onDone={() => setShowIntro(false)} />}
+      </AnimatePresence>
       <div className="site">
         <Header onMenu={() => setMenuOpen(true)} onHome={() => go('home')} />
         {menuOpen && <Menu onClose={() => setMenuOpen(false)} go={go} />}
