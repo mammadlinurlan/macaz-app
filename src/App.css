@@ -26,10 +26,15 @@
   align-items: center;
   cursor: pointer;
   transition: transform .3s, opacity .3s;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 6px 14px;
+  border-radius: 6px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 .logo:hover { transform: scale(1.04); }
 .logo img {
-  height: 56px;
+  height: 64px;
   width: auto;
   display: block;
 }
