@@ -16,15 +16,17 @@ const useLang = () => useContext(LangCtx)
 /* ---------- Project data ---------- */
 interface Project { id: string; title: string; subtitle: string; cover: string; images: string[] }
 const TV = '/tehvil-verilmis'
-const enc = (s: string) => s.replace(/ /g, '%20').replace(/\(/g, '%28').replace(/\)/g, '%29')
-const BVF = `${TV}/buzovna%20villa`
-const BGF = `${TV}/bilgeh-villa`
-const MOF = `${TV}/milli-onkologiya-merkezi`
-const DKF = `${TV}/${enc('Daskesen filiz medenleri( Azergold)- Torpaqlama ve ildirim oturuculefin qurasdirilmasi')}`
-const GUF = `${TV}/gurcustan-Baliq%20emali%20zavodunun%20rekanstruksiyasi`
-const OZF = `${TV}/${enc('ozbekistan 4 km suvarma kanalinin tikintisi')}`
+const enc = encodeURIComponent
+const BVF = `${TV}/${enc('Buzovnada villa layihəsi')}`
+const BG1F = `${TV}/${enc('Bilgəhdə villa layihəsi 1')}`
+const BG2F = `${TV}/${enc('Bilgəhdə villa layihəsi 2')}`
+const MOF = `${TV}/${enc('Milli Onkologiya Mərkəzi')}`
+const DKF = `${TV}/${enc('Daşkəsən filiz medenleri ( Azergold) -  Torpaqlama və ildırım ötürücülərin quraşdırılması')}`
+const GUF = `${TV}/${enc('Gurcustan layihəsi - Balıq emalı zavodunun rekonstruksiyası')}`
+const OZF = `${TV}/${enc('Ozbekistan layihəsi - 4 km suvarma kanalının tikintisi')}`
 const bv = (f: string) => `${BVF}/${enc(f)}`
-const bg = (f: string) => `${BGF}/${enc(f)}`
+const bg1 = (f: string) => `${BG1F}/${enc(f)}`
+const bg2 = (f: string) => `${BG2F}/${enc(f)}`
 const mo = (f: string) => `${MOF}/${enc(f)}`
 const dk = (f: string) => `${DKF}/${enc(f)}`
 const gu = (f: string) => `${GUF}/${enc(f)}`
@@ -33,59 +35,66 @@ const oz = (f: string) => `${OZF}/${enc(f)}`
 const DELIVERED: Project[] = [
   {
     id: 'buzovna-villa',
-    title: 'Buzovna Villa',
+    title: 'Buzovnada Villa Layihəsi',
     subtitle: 'Buzovna, Bakı · Yaşayış tikintisi',
-    cover: bv('buzovna cover.png'),
-    images: ['buzovna cover.png', 'WhatsApp Image 2026-06-23 at 21.43.59 (1).jpeg', 'WhatsApp Image 2026-06-23 at 21.43.59 (2).jpeg', 'WhatsApp Image 2026-06-23 at 21.43.59 (3).jpeg', 'WhatsApp Image 2026-06-23 at 21.43.59 (4).jpeg', 'WhatsApp Image 2026-06-23 at 21.43.59.jpeg', 'WhatsApp Image 2026-06-23 at 21.44.00 (1).jpeg', 'WhatsApp Image 2026-06-23 at 21.44.00.jpeg'].map(bv),
+    cover: bv('Buzovna 1.png'),
+    images: ['Buzovna 1.png', 'Buzovna 2.jpeg', 'Buzovna 3.jpeg', 'Buzovna 4.jpeg', 'Buzovna 5.jpeg', 'Buzovna 6.jpeg', 'Buzovna 7.jpeg', 'Buzovna 8.jpeg'].map(bv),
   },
   {
-    id: 'bilgeh-villa',
-    title: 'Bilgəh Villa',
+    id: 'bilgeh-villa-1',
+    title: 'Bilgəhdə Villa Layihəsi 1',
     subtitle: 'Bilgəh, Bakı · Yaşayış tikintisi',
-    cover: bg('cover bilgeh.png'),
-    images: ['cover bilgeh.png', 'WhatsApp Image 2026-06-23 at 21.44.26.jpeg', 'WhatsApp Image 2026-06-23 at 21.44.27.jpeg', 'WhatsApp Image 2026-06-23 at 21.44.27 (1).jpeg', 'WhatsApp Image 2026-06-23 at 21.44.27 (2).jpeg', 'WhatsApp Image 2026-06-23 at 21.44.27 (3).jpeg'].map(bg),
+    cover: bg1('bilgah 1.png'),
+    images: ['bilgah 1.png', 'bilgah 2.jpeg', 'bilgah 3.jpeg', 'bilgah 4.jpeg'].map(bg1),
+  },
+  {
+    id: 'bilgeh-villa-2',
+    title: 'Bilgəhdə Villa Layihəsi 2',
+    subtitle: 'Bilgəh, Bakı · Yaşayış tikintisi',
+    cover: bg2('bilgah villa 1.png'),
+    images: ['bilgah villa 1.png', 'bilgah villa 2.jpeg', 'bilgah villa 3.jpeg'].map(bg2),
   },
   {
     id: 'milli-onkologiya',
     title: 'Milli Onkologiya Mərkəzi',
     subtitle: 'Bakı, Azərbaycan · Tibbi tikinti',
-    cover: mo('WhatsApp Image 2026-06-23 at 21.38.19.jpeg'),
-    images: ['WhatsApp Image 2026-06-23 at 21.38.19.jpeg', 'WhatsApp Image 2026-06-23 at 21.38.19 (1).jpeg', 'WhatsApp Image 2026-06-23 at 21.38.20.jpeg', 'WhatsApp Image 2026-06-23 at 21.38.20 (1).jpeg', 'WhatsApp Image 2026-06-23 at 21.38.20 (2).jpeg', 'WhatsApp Image 2026-06-23 at 21.38.21.jpeg', 'WhatsApp Image 2026-06-23 at 21.38.21 (1).jpeg'].map(mo),
+    cover: mo('Milli Onkologiya Mərkəzi 1.jpeg'),
+    images: ['Milli Onkologiya Mərkəzi 1.jpeg', 'Milli Onkologiya Mərkəzi 2.jpeg', 'Milli Onkologiya Mərkəzi 3.jpeg', 'Milli Onkologiya Mərkəzi 4.jpeg', 'Milli Onkologiya Mərkəzi 5.jpeg', 'Milli Onkologiya Mərkəzi 6.jpeg'].map(mo),
   },
   {
     id: 'daskesen-azergold',
     title: 'Daşkəsən filiz mədənləri (AzerGold)',
     subtitle: 'Daşkəsən, Azərbaycan · Torpaqlama sistemi',
-    cover: dk('WhatsApp Image 2026-06-23 at 21.41.44.jpeg'),
-    images: ['WhatsApp Image 2026-06-23 at 21.41.44.jpeg', 'WhatsApp Image 2026-06-23 at 21.41.44 (1).jpeg', 'WhatsApp Image 2026-06-23 at 21.41.44 (2).jpeg', 'WhatsApp Image 2026-06-23 at 21.41.45.jpeg', 'WhatsApp Image 2026-06-23 at 21.41.45 (1).jpeg', 'WhatsApp Image 2026-06-23 at 21.41.45 (2).jpeg', 'WhatsApp Image 2026-06-23 at 21.41.45 (3).jpeg', 'WhatsApp Image 2026-06-23 at 21.41.45 (4).jpeg'].map(dk),
+    cover: dk('Azərgold 1.jpeg'),
+    images: ['Azərgold 1.jpeg', 'Azərgold 2.jpeg', 'Azərgold 3.jpeg', 'Azərgold 4.jpeg', 'Azərgold 5.jpeg', 'Azərgold 6.jpeg', 'Azərgold 7.jpeg', 'Azərgold 8.jpeg'].map(dk),
   },
   {
     id: 'gurcustan-baliq',
     title: 'Gürcüstan — Balıq emalı zavodu',
     subtitle: 'Gürcüstan · Rekonstruksiya',
-    cover: gu('WhatsApp Image 2026-06-23 at 21.39.18.jpeg'),
-    images: ['WhatsApp Image 2026-06-23 at 21.39.18.jpeg', 'WhatsApp Image 2026-06-23 at 21.39.19.jpeg', 'WhatsApp Image 2026-06-23 at 21.39.19 (1).jpeg', 'WhatsApp Image 2026-06-23 at 21.39.20.jpeg', 'WhatsApp Image 2026-06-23 at 21.39.20 (1).jpeg', 'WhatsApp Image 2026-06-23 at 21.39.20 (2).jpeg'].map(gu),
+    cover: gu('Balı emalı zavodu 1.jpeg'),
+    images: ['Balı emalı zavodu 1.jpeg', 'Balı emalı zavodu 2.jpeg', 'Balı emalı zavodu 3.jpeg', 'Balı emalı zavodu 4.jpeg', 'Balı emalı zavodu 5.jpeg', 'Balı emalı zavodu 6.jpeg'].map(gu),
   },
   {
     id: 'ozbekistan-kanal',
     title: 'Özbəkistan — Suvarma kanalı',
     subtitle: 'Özbəkistan · 4 km infrastruktur tikintisi',
-    cover: oz('WhatsApp Image 2026-06-23 at 21.40.35.jpeg'),
-    images: ['WhatsApp Image 2026-06-23 at 21.40.35.jpeg', 'WhatsApp Image 2026-06-23 at 21.40.35 (1).jpeg', 'WhatsApp Image 2026-06-23 at 21.40.36.jpeg', 'WhatsApp Image 2026-06-23 at 21.40.36 (1).jpeg'].map(oz),
+    cover: oz('Özbəkistan layihəsi 1.jpeg'),
+    images: ['Özbəkistan layihəsi 1.jpeg', 'Özbəkistan layihəsi 2.jpeg', 'Özbəkistan layihəsi 3.jpeg', 'Özbəkistan layihəsi 4.jpeg'].map(oz),
   },
 ]
 
 // Images used on home / about / contact pages
 const HP = {
-  main: bv('buzovna cover.png'),
-  ext1: bv('buzovna cover.png'),
-  ext2: mo('WhatsApp Image 2026-06-23 at 21.38.19.jpeg'),
-  ext3: gu('WhatsApp Image 2026-06-23 at 21.39.18.jpeg'),
-  int1: bg('WhatsApp Image 2026-06-23 at 21.44.26.jpeg'),
-  int2: bg('WhatsApp Image 2026-06-23 at 21.44.27.jpeg'),
-  r1:   dk('WhatsApp Image 2026-06-23 at 21.41.44.jpeg'),
-  r3:   oz('WhatsApp Image 2026-06-23 at 21.40.35.jpeg'),
-  bl:   bg('cover bilgeh.png'),
+  main: bv('Buzovna 1.png'),
+  ext1: bv('Buzovna 1.png'),
+  ext2: mo('Milli Onkologiya Mərkəzi 1.jpeg'),
+  ext3: gu('Balı emalı zavodu 1.jpeg'),
+  int1: bg1('bilgah 1.png'),
+  int2: bg2('bilgah villa 1.png'),
+  r1: dk('Azərgold 1.jpeg'),
+  r3: oz('Özbəkistan layihəsi 1.jpeg'),
+  bl: bg1('bilgah 1.png'),
 }
 
 /* ---------- Section helpers ---------- */
@@ -152,7 +161,7 @@ function homeSections(go: (p: Page) => void, goProject: (id: string) => void, tr
   const left: ReactNode[] = [
     /* slide 0 */ Green(<><h1 className="h-display">{T(h.hero)}</h1><p className="eyebrow">{h.heroSub}</p></>, 'bottom'),
     /* slide 1 */ ImgSec(HP.ext1),        // BV  image left  → BV  text  right
-    /* slide 2 */ Green(<><p className="eyebrow">02</p><h2 className="h-section peach">{T(h.bilgehTitle)}</h2><p className="body-text">{h.bilgehBody}</p><button className="btn peach" style={{ marginTop: 28 }} onClick={() => goProject('bilgeh-villa')}>{h.archBtn} →</button></>),  // BL text left → BL image right
+    /* slide 2 */ Green(<><p className="eyebrow">02</p><h2 className="h-section peach">{T(h.bilgehTitle)}</h2><p className="body-text">{h.bilgehBody}</p><button className="btn peach" style={{ marginTop: 28 }} onClick={() => goProject('bilgeh-villa-1')}>{h.archBtn} →</button></>),  // BL text left → BL image right
     /* slide 3 */ ImgSec(HP.ext2),        // MO  image left  → MO  text  right
     /* slide 4 */ Green(<><p className="eyebrow">04</p><h2 className="h-section peach">{T(h.locTitle)}</h2><p className="body-text">{h.locBody}</p><button className="btn peach" style={{ marginTop: 28 }} onClick={() => goProject('gurcustan-baliq')}>{h.locBtn} →</button></>),  // GU text left → GU image right
     /* slide 5 */ ImgSec(HP.r3),          // OZ  image left  → OZ  text  right
@@ -284,7 +293,9 @@ function ProjectDetail({ project, onClose }: Readonly<{ project: Project; onClos
     else right.push(ImgSec(src))
   })
   const filler = <div className="ms-section s-green" />
-  while (left.length > right.length) right.push(filler)
+  while (left.length > right.length + 1) right.push(filler)
+  // right[N-1] pairs with titlePanel on slide 0 — put cover image there
+  if (left.length > right.length) right.push(ImgSec(project.images[0]))
   while (right.length > left.length) left.push(filler)
 
   return (
@@ -405,7 +416,7 @@ function Intro({ onDone }: Readonly<{ onDone: () => void }>) {
     <motion.div className="intro" onClick={handoff} exit={{ opacity: 0, transition: { duration: 0.4 } }}>
       <motion.div className="intro-bg" initial={{ opacity: 1 }} animate={bg} />
       <motion.div ref={wrapRef} className="intro-logo" initial={{ opacity: 0, scale: 0.8, y: 28, filter: 'blur(10px)' }} animate={logo}>
-        <img src="/logo-modified.png" alt="Macaz MMC" />
+        <img src="/tehvil-verilmis/Logo/MACAZ_transparent.png" alt="Macaz MMC" />
         <span className="intro-sweep" />
       </motion.div>
       <motion.p
@@ -426,7 +437,7 @@ function Header({ onMenu, onHome }: Readonly<{ onMenu: () => void; onHome: () =>
   return (
     <header className="header">
       <div className="logo" onClick={onHome}>
-        <img src="/logo-modified.png" alt="Tikint" />
+        <img src="/tehvil-verilmis/Logo/MACAZ_transparent.png" alt="Tikint" />
       </div>
       <div className="header-right">
         <div className="lang-switcher">
@@ -449,7 +460,7 @@ function Menu({ onClose, go }: Readonly<{ onClose: () => void; go: (p: Page) => 
   const n = tr.nav
   return (
     <div className="menu">
-      <img src="/logo-modified.png" className="menu-logo" alt="Macaz" />
+      <img src="/tehvil-verilmis/Logo/MACAZ_transparent.png" className="menu-logo" alt="Macaz" />
       <div className="mlinks">
         <button onClick={() => nav('home')}>{n.home}</button>
         <button onClick={() => nav('projects')}>{n.projects}</button>
