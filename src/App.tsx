@@ -379,7 +379,7 @@ function Intro({ onDone }: Readonly<{ onDone: () => void }>) {
   const handoff = useCallback(async () => {
     if (doneRef.current) return
     doneRef.current = true
-    const target = document.querySelector<HTMLImageElement>('.header .logo img')
+    const target = document.querySelector<HTMLImageElement>('.cs-logo img, .header .logo img')
     const wrap = wrapRef.current
     if (target && wrap) {
       const from = wrap.getBoundingClientRect()
@@ -428,6 +428,41 @@ function Intro({ onDone }: Readonly<{ onDone: () => void }>) {
         Macaz MMC
       </motion.p>
     </motion.div>
+  )
+}
+
+/* ---------- Coming soon (temporary maintenance page) ---------- */
+/* Set COMING_SOON to false to bring the full site back. */
+const COMING_SOON = true
+
+function ComingSoon() {
+  const { tr, lang, setLang } = useLang()
+  const s = tr.soon
+  return (
+    <div className="coming">
+      <div className="coming-bg" />
+      <div className="coming-langs">
+        {(['az', 'en', 'ru'] as Lang[]).map(l => (
+          <button key={l} className={lang === l ? 'lang-btn active' : 'lang-btn'} onClick={() => setLang(l)}>
+            {l.toUpperCase()}
+          </button>
+        ))}
+      </div>
+
+      <motion.div
+        className="coming-inner"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.15, ease: EASE_OUT_CUBIC }}
+      >
+        <div className="cs-logo">
+          <img src="/tehvil-verilmis/Logo/MACAZ_transparent.png" alt="Macaz MMC" />
+        </div>
+        <span className="coming-badge">{s.badge}</span>
+        <h1 className="coming-title">{s.title}</h1>
+        <p className="coming-body">{s.body}</p>
+      </motion.div>
+    </div>
   )
 }
 
@@ -618,6 +653,17 @@ export default function App() {
         : contactSections(go, tr)
 
   const msKey = `${location.pathname}-${lang}`
+
+  if (COMING_SOON) {
+    return (
+      <LangCtx.Provider value={{ tr, lang, setLang }}>
+        <ComingSoon />
+        <AnimatePresence>
+          {showIntro && <Intro key="intro" onDone={() => setShowIntro(false)} />}
+        </AnimatePresence>
+      </LangCtx.Provider>
+    )
+  }
 
   return (
     <LangCtx.Provider value={{ tr, lang, setLang }}>

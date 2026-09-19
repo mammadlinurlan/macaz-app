@@ -77,6 +77,11 @@ export const translations = {
       send: 'Göndər',
       thanks: 'Təşəkkür! Sizinlə əlaqə saxlayacağıq.',
     },
+    soon: {
+      badge: 'Tezliklə',
+      title: 'Saytımız yenilənir',
+      body: 'Hazırda saytımızda texniki iş və təmir işləri aparılır.',
+    },
     menu: { close: '×' },
     bullets: {
       b1: 'Azərbaycan, Gürcüstan, Özbəkistan',
@@ -170,6 +175,11 @@ export const translations = {
       send: 'Send',
       thanks: 'Thank you! We will get in touch.',
     },
+    soon: {
+      badge: 'Coming soon',
+      title: 'Our website is being updated',
+      body: 'The site is currently undergoing maintenance.',
+    },
     menu: { close: '×' },
     bullets: {
       b1: 'Azerbaijan, Georgia, Uzbekistan',
@@ -262,6 +272,11 @@ export const translations = {
       message: 'СООБЩЕНИЕ',
       send: 'Отправить',
       thanks: 'Спасибо! Мы свяжемся с вами.',
+    },
+    soon: {
+      badge: 'Скоро',
+      title: 'Сайт обновляется',
+      body: 'На сайте ведутся технические работы.',
     },
     menu: { close: '×' },
     bullets: {
